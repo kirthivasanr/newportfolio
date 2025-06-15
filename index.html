@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="Kirthivasan M R - Full Stack Developer Portfolio. Experienced in modern web technologies, creating seamless user experiences with cutting-edge solutions.">
+    <meta name="keywords" content="Full Stack Developer, Web Developer, Portfolio, JavaScript, React, Node.js, Modern Web Development">
+    <meta name="author" content="Kirthivasan M R">
+    <title>Kirthivasan M R - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/ico" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+    <link rel="android-chrome" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
+    <link rel="manifest" href="assets/favicon/manifest.json">
+    <meta name="theme-color" content="#0a0a0a">
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="greeting">Hi there, I am</p>              
+                <h1 class="name">
+                    <div class="text-reveal">
+                        <span id="typing-text">KIRTHIVASAN M R</span>
+                    </div>
+                </h1>
+            </div>        
+        </section>        
+        <!-- About Section -->
+        <section class="about">
+            <div class="about-content">
+                <div class="about-text-content">
+                    <h2 class="about-title">Who am I?</h2>
+                    <div class="about-text">
+                        <p class="about-intro">I'm a Full Stack Developer with a deep passion for crafting seamless user experiences.</p>
+                        <p class="about-detail">Pre-final year student at SRM IST Ramapuram, pursuing B.Tech ECE, recognized for strong academics and a diverse skill set.</p>
+                        <p class="about-detail">I thrive on solving complex problems and bringing ideas to life.</p>
+                    </div>
+                </div>
+                <div class="about-3d-container">
+                    <canvas id="programmer-canvas"></canvas>
+                </div>
+            </div>        
+        </section>
+        
+        <!-- Skills Section -->
+        <section class="skills">
+            <div class="skills-content">
+                <h2 class="skills-title">My Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card" data-skill="html">
+                        <canvas class="skill-canvas" id="html-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>HTML5</h3>
+                            <p>Semantic markup & modern structure</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="css">
+                        <canvas class="skill-canvas" id="css-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>CSS3</h3>
+                            <p>Modern styling & animations</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="javascript">
+                        <canvas class="skill-canvas" id="js-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>JavaScript</h3>
+                            <p>ES6+ & modern frameworks</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="react">
+                        <canvas class="skill-canvas" id="react-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>React</h3>
+                            <p>Component-based development</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="nodejs">
+                        <canvas class="skill-canvas" id="node-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>Node.js</h3>
+                            <p>Server-side JavaScript</p>
+                        </div>
+                    </div>                   
+                     <div class="skill-card" data-skill="python">
+                        <canvas class="skill-canvas" id="python-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>Python</h3>
+                            <p>Backend & data processing</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="c">
+                        <canvas class="skill-canvas" id="c-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>C Programming</h3>
+                            <p>System programming & algorithms</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="git">
+                        <canvas class="skill-canvas" id="git-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>Git</h3>
+                            <p>Version control & collaboration</p>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-skill="ai">
+                        <canvas class="skill-canvas" id="ai-canvas"></canvas>
+                        <div class="skill-info">
+                            <h3>AI Tools</h3>
+                            <p>Machine learning & Automation</p>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </section>
+          <!-- Projects Section -->
+        <section class="projects">
+            <div class="projects-content">
+                <h2 class="projects-title">My Projects</h2>
+                <div class="projects-container">
+                      <!-- Project 1: Smart Notes AI -->
+                    <div class="project-item">                        <div class="project-media">
+                            <!-- Free Hosting Solution - Local Videos -->
+                            <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/smart-notes-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project1-fallback.jpg" alt="Smart Notes AI Fallback" class="video-fallback">
+                            </video>
+                            
+                            <!-- Instructions: 
+                                1. Copy your "Smart Notes Ai-Demo video.mp4" to assets/videos/ folder
+                                2. Rename it to "smart-notes-demo.mp4" (no spaces)
+                                3. Deploy to Render, Netlify, or GitHub Pages (all FREE!)
+                                4. Perfect quality video hosting at no cost!
+                            -->
+                            
+                            <!-- Placeholder - Will be hidden when video is loaded -->
+                            <div class="media-placeholder">
+                                <span>Copy video to assets/videos/smart-notes-demo.mp4</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Smart Notes AI</h3>
+                            <p class="project-desc">Smart Notes AI is an AI-powered web app that converts class notes into summaries, MCQs, key questions, and video suggestions.</p>                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">TailWindCSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Firebase</span>
+                            </div>
+                            <a href="https://github.com/kirthivasanr/Smart-Notes-AI" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2: Recipe Generator using AI -->
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video Option - Remove comments to use video -->                            <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/recipe-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project2-fallback.jpg" alt="Recipe Generator Fallback" class="video-fallback">
+                            </video>
+                            
+                            <!-- Image Option - Uncomment to use image instead of video -->
+                            <!-- <img src="assets/images/project2-screenshot.jpg" alt="Recipe Generator Screenshot" class="project-image"> -->
+                            
+                            <!-- Placeholder - Will be hidden when video/image is added -->
+                            <div class="media-placeholder">
+                                <span>Add video or screenshot here</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Recipe Generator using AI</h3>
+                            <p class="project-desc">A recipe generator using AI, which can generate receipes based on the ingredients provided by the user</p>                           
+                             <div class="project-tech">
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">API</span>
+                                <span class="tech-tag">javascript</span>
+                            </div>
+                            <a href="https://github.com/kirthivasanr/Recipe-Gen" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video Option - Uncomment to use video -->                            <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/offline-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project3-fallback.jpg" alt="Offline Detection Fallback" class="video-fallback">
+                            </video>
+                            
+                            <!-- Image Option - Uncomment to use image -->
+                            <!-- <img src="assets/images/project3-screenshot.jpg" alt="Weather Dashboard Screenshot" class="project-image"> -->
+                            
+                            <!-- Placeholder - Will be hidden when video/image is added -->
+                            <div class="media-placeholder">
+                                <span>Add video or screenshot here</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Offline Malpractice Detection</h3>
+                            <p class="project-desc">A real-time monitoring tool that detects suspicious student behavior during exams using computer vision.</p>                            
+                            <div class="project-tech">
+                                <span class="tech-tag">python</span>
+                                <span class="tech-tag">OpenCv</span>
+                                <span class="tech-tag">Mediapipe</span>
+                                <span class="tech-tag">Tkinter</span>
+                            </div>
+                            <a href="hhttps://github.com/kirthivasanr/Offline-Malpractice-Detection-" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 4: AI Chatbot -->
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video Option - Uncomment to use video -->
+                            <!-- <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/project4-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project4-fallback.jpg" alt="AI Chatbot Fallback" class="video-fallback">
+                            </video> -->
+                            
+                            <!-- Image Option - Uncomment to use image -->
+                            <img src="assets/images/library.png" alt="dashboard image" class="project-image"> 
+                            
+                            <!-- Placeholder - Will be hidden when video/image is added -->
+                            <div class="media-placeholder">
+                                <span>Add video or screenshot here</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Digital Library Management</h3>
+                            <p class="project-desc">Digital library website built with PhP and Mysql, Which provides a user-friendly interface for managing books, authors, and categories for both the teacher and student.</p>                            
+                            <div class="project-tech">
+                                <span class="tech-tag">PhP</span>
+                                <span class="tech-tag">Mysql</span>
+                                <span class="tech-tag">CSS</span>
+                            </div>
+                            <a href="https://github.com/kirthivasanr/Digital-Library-Website" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 5: Portfolio Website -->
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video Option - Uncomment to use video -->
+                            <!-- <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/project5-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project5-fallback.jpg" alt="Portfolio Website Fallback" class="video-fallback">
+                            </video> -->
+                            
+                            <!-- Image Option - Uncomment to use image -->
+                             <img src="assets/images/tin-dog.jpeg" alt="Portfolio Website Screenshot" class="project-image"> 
+                            <!-- Placeholder - Will be hidden when video/image is added -->
+                            
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Tin-Dog</h3>
+                            <p class="project-desc">A modern dating website for dogs (just for fun) with a simple and intuitive interface and smooth animations. Features responsive design and interactive elements.</p>                            
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">BootStrap</span>
+                            </div>
+                            <a href="https://github.com/kirthivasanr/Tin-Dog-Website" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 6: Data Visualization Tool -->
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video Option - Uncomment to use video -->
+                            <!-- <video autoplay muted loop playsinline class="project-video">
+                                <source src="assets/videos/project6-demo.mp4" type="video/mp4">
+                                <img src="assets/images/project6-fallback.jpg" alt="Data Visualization Tool Fallback" class="video-fallback">
+                            </video> -->
+                            
+                            <!-- Image Option - Uncomment to use image -->
+                            <img src="assets/images/detector.jpg" alt="ultrasonic sensor" class="project-image">
+                            
+                            <!-- Placeholder - Will be hidden when video/image is added -->
+                            <div class="media-placeholder">
+                                <span>Add video or screenshot here</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">Obstacle Detector</h3>
+                            <p class="project-desc">A real-time Obstacle detector using Ultra sonic sensor and Arduino, Indicates the person with strong buzzer and Led indication. A prototype.</p>                            
+                            <div class="project-tech">
+                                <span class="tech-tag">Arduino</span>
+                                <span class="tech-tag">C++</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- Experience Section -->
+        <section class="experience">
+            <div class="experience-content">
+                <h2 class="experience-title">My Experience</h2>                
+                <div class="timeline">
+                    <!-- Timeline Line -->
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Experience Item 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="year">2025</span>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="experience-card">
+                                <h3 class="job-title">Full Stack Developer(Intern)</h3>
+                                <h4 class="company">Shikshak</h4>
+                                <p class="job-description">Contributed to the development of VISE, a platform designed to connect startups with potential investors and funding opportunities.(June - July)</p>
+                                <div class="experience-skills">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">Express.js</span>
+                                    <span class="skill-tag">Sqllite</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Experience Item 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="year">2024</span>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="experience-card">
+                                <h3 class="job-title">IoT Intern</h3>
+                                <h4 class="company">NSIC</h4>
+                                <p class="job-description">Gained hands-on experience in IoT application development, working with Raspberry Pi, Arduino, and various sensors to design and implement innovative projects.(Dec)</p>
+                                <div class="experience-skills">
+                                    <span class="skill-tag">Raspberry Pi</span>
+                                    <span class="skill-tag">Arduino</span>
+                                    <span class="skill-tag">IoT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section class="contact">
+            <div class="contact-content">
+                <h2 class="contact-title">Let's Connect</h2>
+                <div class="social-grid">
+                    <!-- LinkedIn -->
+                    <div class="social-card linkedin">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </div>
+                        <h3 class="social-name">LinkedIn</h3>
+                        <p class="social-desc">Connect with me professionally</p>
+                        <a href="https://www.linkedin.com/in/kirthivasan-m-r-2b7a6932a/" target="_blank" class="social-btn linkedin-btn">Connect</a>
+                    </div>
+                    
+                    <!-- GitHub -->
+                    <div class="social-card github">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <h3 class="social-name">GitHub</h3>
+                        <p class="social-desc">Check out my code repositories</p>
+                        <a href="https://github.com/kirthivasanr" target="_blank" class="social-btn github-btn">Follow</a>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="social-card email">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
+                            </svg>
+                        </div>
+                        <h3 class="social-name">Email</h3>
+                        <p class="social-desc">Drop me a message anytime</p>
+                        <a href="mailto:kirthivasan09@gmail.com" class="social-btn email-btn">Message</a>
+                    </div>
+                    
+                    <!-- Instagram -->
+                    <div class="social-card instagram">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </div>
+                        <h3 class="social-name">Instagram</h3>
+                        <p class="social-desc">Follow my creative journey</p>
+                        <a href="https://www.instagram.com/kirthivasan.__/" target="_blank" class="social-btn instagram-btn">Follow</a>
+                    </div>
+                </div>
+            </div>        </section>
+        
+        <!-- Footer Note -->
+        <footer class="footer-note">
+            <p>💻 For the best experience, visit this site on laptop or desktop</p>
+        </footer>
+    </div><!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
