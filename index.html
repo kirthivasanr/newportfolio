@@ -179,8 +179,34 @@
             <div class="projects-content">
                 <h2 class="projects-title">My Projects</h2>
                 <div class="projects-container">
+                    <!-- Project 0: New Upload Placeholder -->
+                    <div class="project-item">
+                        <div class="project-media">
+                            <!-- Video placeholder: replace src with your video path (e.g., assets/videos/my-demo.mp4) -->
+                            <video muted loop playsinline class="project-video">
+                                <source src="./assets/videos/MediConnect.mp4" type="video/mp4">
+                                <img src="assets/images/project-placeholder.jpg" alt="New Project Fallback" class="video-fallback">
+                            </video>
+
+                            <!-- Visible helper text if you remove the <video> or until you add media -->
+                            <div class="media-placeholder">
+                                <span>Place your video at assets/videos/my-new-project.mp4 or add an image here</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-name">MediConnect</h3>
+                            <p class="project-desc">AI-powered telemedicine app where users can type or speak their symptoms, get an instant health check with risk level, find nearby doctors, and book appointments. Built in 24hrs for VIT Hackathon.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">TailWindCSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                            </div>
+                            <a href="https://github.com/kirthivasanr/VIT-hack-mediconnect" target="_blank" class="view-code-btn">View Code</a>
+                        </div>
+                    </div>
                       <!-- Project 1: Smart Notes AI -->
-                    <div class="project-item">                        <div class="project-media">
+                    <div class="project-item">                       
+                         <div class="project-media">
                             <!-- Free Hosting Solution - Local Videos -->
                             <video muted loop playsinline class="project-video">
                                 <source src="assets/videos/smart-notes-demo.mp4" type="video/mp4">
@@ -461,6 +487,22 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Certification Slide 6 (Placeholder) -->
+                            <div class="certification-slide">
+                                <div class="certification-image">
+                                    <img src="./assets/certificates/certhack.jpg" alt="Vit Hackathon" />
+                                    <div class="certification-overlay">
+                                        <h3>Vit Hackathon- Participation certificate</h3>
+                                        <p class="issuer">VIT</p>
+                                        <p class="date">2025</p>
+                                        <div class="certification-skills">
+                                            <span class="cert-skill">Web Development</span>
+                                            <span class="cert-skill">Teamwork</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Navigation Buttons -->
@@ -483,6 +525,7 @@
                         <button class="slider-dot" data-slide="2" aria-label="Go to certification 3"></button>
                         <button class="slider-dot" data-slide="3" aria-label="Go to certification 4"></button>
                         <button class="slider-dot" data-slide="4" aria-label="Go to certification 5"></button>
+                        <button class="slider-dot" data-slide="5" aria-label="Go to certification 6"></button>
                     </div>
                 </div>
             </div>
