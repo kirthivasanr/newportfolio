@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Typing animation function
     function typeTagline() {
-        const roles = ["A Full Stack Developer", "A Python Programmer"];
+        const roles = ["Backend Developer" , "Tech Enthusiast"];
         let roleIndex = 0;
         let charIndex = 0;
         const taglineElement = document.getElementById('tagline-text');
