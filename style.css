@@ -606,6 +606,56 @@ html, body {
     50% { opacity: 0; }
 }
 
+/* NPX Hint Box */
+.npx-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(168, 145, 217, 0.08);
+    border: 1px solid rgba(168, 145, 217, 0.35);
+    border-radius: 8px;
+    padding: 0.55rem 1.1rem;
+    font-family: 'Courier New', 'Fira Code', monospace;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 18px rgba(168, 145, 217, 0.18), inset 0 0 12px rgba(168, 145, 217, 0.05);
+    cursor: default;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    z-index: 2;
+}
+
+.npx-hint:hover {
+    border-color: rgba(168, 145, 217, 0.7);
+    box-shadow: 0 0 28px rgba(168, 145, 217, 0.35), inset 0 0 16px rgba(168, 145, 217, 0.08);
+}
+
+.npx-hint-prompt {
+    color: #7ec98a;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.npx-hint-cmd {
+    color: var(--primary-color);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: rgba(168, 145, 217, 0.15);
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+}
+
+.npx-hint-label {
+    color: var(--subtle-text);
+    font-size: 0.78rem;
+    font-family: 'Space Grotesk', sans-serif;
+    opacity: 0.8;
+}
+
 /* Enhanced Mobile responsiveness for Hero */
 @media (max-width: 768px) {
     .hero {
