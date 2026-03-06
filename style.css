@@ -2276,6 +2276,11 @@ spline-viewer[loaded] {
     border-radius: 2px;
 }
 
+/* Extra bottom space so the underline bar doesn't collide with the icons */
+.contact-title {
+    padding-bottom: 0.5rem;
+}
+
 .contact-subtitle {
     font-size: 1.3rem;
     color: var(--subtle-text);
@@ -2286,281 +2291,192 @@ spline-viewer[loaded] {
 
 /* Old contact form styles removed - using social cards layout instead */
 
-/* Social Grid Layout */
-.social-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns for single row */
-    gap: 1.5rem;
-    max-width: 1400px;
-    margin: 3rem auto 0;
-}
-
-.social-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.social-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(168, 145, 217, 0.2);
-}
-
-.social-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1.5rem;
+/* Social Icons Row */
+.social-icons-row {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2.5rem;
+    margin: 3.5rem auto 0;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+}
+
+.social-icon-link {
+    position: relative;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: var(--primary-gradient);
-    color: var(--text-color);
-    font-size: 1.5rem;
-}
-
-.social-icon svg {
-    width: 30px;
-    height: 30px;
-    fill: currentColor;
-}
-
-.social-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-color);
-    margin-bottom: 0.5rem;
-    font-family: 'Inter', sans-serif;
-}
-
-.social-desc {
-    color: var(--subtle-text);
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 2rem;
-}
-
-.social-btn {
-    display: inline-block;
-    background: var(--primary-gradient);
-    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
     text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    flex-shrink: 0;
 }
 
-.social-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(168, 145, 217, 0.3);
+.social-icon-link svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+    pointer-events: none;
 }
 
-/* Specific social platform styling */
-.linkedin .social-icon {
+.social-icon-link:hover {
+    transform: translateY(-6px) scale(1.1);
+}
+
+/* Platform colours */
+.social-icon-link.linkedin {
     background: linear-gradient(135deg, #0077b5, #00669c);
+    box-shadow: 0 4px 20px rgba(0, 119, 181, 0.35);
+}
+.social-icon-link.linkedin:hover {
+    box-shadow: 0 10px 30px rgba(0, 119, 181, 0.55);
 }
 
-.github .social-icon {
-    background: linear-gradient(135deg, #333, #24292e);
+.social-icon-link.github {
+    background: linear-gradient(135deg, #444, #24292e);
+    box-shadow: 0 4px 20px rgba(36, 41, 46, 0.5);
+}
+.social-icon-link.github:hover {
+    box-shadow: 0 10px 30px rgba(100, 100, 100, 0.55);
 }
 
-.email .social-icon {
-    background: linear-gradient(135deg, #ea4335, #d33b2c);
+.social-icon-link.email {
+    background: linear-gradient(135deg, #ea4335, #c5221f);
+    box-shadow: 0 4px 20px rgba(234, 67, 53, 0.35);
+}
+.social-icon-link.email:hover {
+    box-shadow: 0 10px 30px rgba(234, 67, 53, 0.55);
 }
 
-.instagram .social-icon {
-    background: linear-gradient(135deg, #e4405f, #fd5949);
+.social-icon-link.instagram {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    box-shadow: 0 4px 20px rgba(220, 39, 67, 0.35);
+}
+.social-icon-link.instagram:hover {
+    box-shadow: 0 10px 30px rgba(220, 39, 67, 0.55);
 }
 
-/* Enhanced Mobile responsiveness for Contact */
+/* Tooltip */
+.social-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: rgba(30, 30, 30, 0.9);
+    color: #fff;
+    font-size: 0.75rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.social-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(30, 30, 30, 0.9);
+}
+
+.social-icon-link:hover .social-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Mobile responsiveness for Contact */
+
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+    .social-icons-row {
+        gap: 2rem;
+    }
+}
+
+/* Mobile (≤768px) */
 @media (max-width: 768px) {
     .contact {
-        padding: 3rem 1rem;
+        padding: 3.5rem 1.5rem 3rem;
         min-height: auto;
     }
-    
-    .contact-title {
-        font-size: clamp(2rem, 6vw, 2.5rem);
-        margin-bottom: 1.2rem;
-    }
-    
-    .contact-subtitle {
-        font-size: clamp(1rem, 4vw, 1.2rem);
-        margin-bottom: 2.5rem;
-        padding: 0 1rem;
-        line-height: 1.6;
-    }
-    
-    .social-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
-        gap: 1.2rem;
-        margin-top: 2rem;
+
+    .contact-content {
         max-width: 100%;
     }
-    
-    .social-card {
-        padding: 2rem 1.2rem;
-        border-radius: 15px;
-        min-height: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+
+    .contact-title {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+        margin-bottom: 1.2rem;
     }
-    
-    .social-icon {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 1rem;
+
+    .social-icons-row {
+        gap: 1.8rem;
+        margin-top: 3rem;
+        padding: 0 0.5rem;
     }
-    
-    .social-icon svg {
+
+    .social-icon-link {
+        width: 58px;
+        height: 58px;
+    }
+
+    .social-icon-link svg {
         width: 25px;
         height: 25px;
     }
-    
-    .social-name {
-        font-size: clamp(1.2rem, 4.5vw, 1.4rem);
-        margin-bottom: 0.8rem;
-    }
-    
-    .social-desc {
-        font-size: clamp(0.85rem, 3.8vw, 0.95rem);
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
-        text-align: center;
-        flex-grow: 1;
-    }
-    
-    .social-btn {
-        padding: 0.7rem 1.3rem;
-        font-size: clamp(0.85rem, 3.8vw, 0.95rem);
-        border-radius: 20px;
-        margin-top: auto;
-    }
 }
 
+/* Small mobile (≤480px) */
 @media (max-width: 480px) {
     .contact {
-        padding: 2rem 0.8rem;
+        padding: 3rem 1rem 2.5rem;
     }
-    
-       
-       
+
     .contact-title {
-        font-size: clamp(1.8rem, 7vw, 2.2rem);
-        margin-bottom: 1rem;
+        font-size: clamp(1.6rem, 7vw, 2rem);
     }
-    
-    .contact-subtitle {
-        font-size: clamp(0.9rem, 4.5vw, 1.1rem);
-        margin-bottom: 2rem;
-        padding: 0 0.5rem;
+
+    .social-icons-row {
+        gap: 1.4rem;
+        margin-top: 2.5rem;
     }
-    
-    .social-grid {
-        grid-template-columns: 1fr; /* Single column on mobile */
-        gap:  1rem;
-        margin-top: 1.5rem;
-        max-width: 320px;
-        margin-left: auto;
-        margin-right: auto;
+
+    .social-icon-link {
+        width: 52px;
+        height: 52px;
     }
-    
-    .social-card {
-        padding: 1.8rem 1rem;
-        min-height: 180px;
-        border-radius: 12px;
-    }
-    
-    .social-icon {
-        width: 45px;
-        height: 45px;
-        margin-bottom: 1rem;
-    }
-    
-    .social-icon svg {
+
+    .social-icon-link svg {
         width: 22px;
         height: 22px;
     }
-    
-    .social-name {
-        font-size: clamp(1.1rem, 5vw, 1.3rem);
-        margin-bottom: 0.6rem;
-    }
-    
-    .social-desc {
-        font-size: clamp(0.8rem, 4.2vw, 0.9rem);
-        margin-bottom: 1.2rem;
-    }
-    
-    .social-btn {
-        padding: 0.6rem 1.2rem;
-               font-size: clamp(0.8rem, 4.2vw, 0.9rem);
-    }
 }
 
+/* Very small screens (≤360px) */
 @media (max-width: 360px) {
-    .contact {
-        padding: 1.5rem 0.5rem;
+    .social-icons-row {
+        gap: 1.1rem;
     }
-    
-    .contact-title {
-        font-size: clamp(1.6rem, 8vw, 1.9rem);
+
+    .social-icon-link {
+        width: 46px;
+        height: 46px;
     }
-    
-    .contact-subtitle {
-        font-size: clamp(0.85rem, 5vw, 1rem);
-        margin-bottom: 1.8rem;
-    }
-    
-    .social-grid {
-        max-width: 280px;
-    }
-    
-    .social-card {
-        padding: 1.5rem 0.8rem;
-        min-height: 160px;
-    }
-    
-    .social-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .social-icon svg {
+
+    .social-icon-link svg {
         width: 20px;
         height: 20px;
-    }
-    
-    .social-name {
-        font-size: clamp(1rem, 6vw, 1.2rem);
-    }
-    
-    .social-desc {
-        font-size: clamp(0.75rem, 4.5vw, 0.85rem);
-        margin-bottom: 1rem;
-    }
-    
-    .social-btn {
-        padding: 0.5rem 1rem;
-        font-size: clamp(0.75rem, 4.5vw, 0.85rem);
-    }
-}
-
-/* Tablet responsiveness */
-@media (max-width: 1024px) {
-    .social-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
-        gap: 1.5rem;
     }
 }
 
