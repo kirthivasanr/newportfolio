@@ -635,6 +635,36 @@ html, body {
     box-shadow: 0 0 28px rgba(168, 145, 217, 0.35), inset 0 0 16px rgba(168, 145, 217, 0.08);
 }
 
+@media (max-width: 768px) {
+    .npx-hint {
+        white-space: normal;
+        text-align: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.9rem;
+        gap: 0.35rem;
+        max-width: calc(100vw - 3rem);
+        box-sizing: border-box;
+    }
+    .npx-hint-label {
+        width: 100%;
+        text-align: center;
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .npx-hint {
+        font-size: 0.75rem;
+        padding: 0.45rem 0.8rem;
+        max-width: calc(100vw - 2rem);
+    }
+    .npx-hint-cmd {
+        font-size: 0.75rem;
+    }
+}
+
 /* Hackathon Badge */
 .project-media-wrapper {
     position: relative;
@@ -1601,6 +1631,8 @@ spline-viewer[loaded] {
         margin-bottom: 1.5rem;
         border-radius: 15px;
     }
+
+    .project-info {
         flex: none !important;
         max-width: 100% !important;
         width: 100% !important;
