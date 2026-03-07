@@ -608,12 +608,9 @@ html, body {
 
 /* NPX Hint Box */
 .npx-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     background: rgba(168, 145, 217, 0.08);
     border: 1px solid rgba(168, 145, 217, 0.35);
@@ -626,12 +623,88 @@ html, body {
     box-shadow: 0 0 18px rgba(168, 145, 217, 0.18), inset 0 0 12px rgba(168, 145, 217, 0.05);
     cursor: default;
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    margin-top: 2rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 2;
 }
 
 .npx-hint:hover {
     border-color: rgba(168, 145, 217, 0.7);
     box-shadow: 0 0 28px rgba(168, 145, 217, 0.35), inset 0 0 16px rgba(168, 145, 217, 0.08);
+}
+
+/* Hackathon Badge */
+.project-media-wrapper {
+    position: relative;
+    flex: 1.8;
+    max-width: 800px;
+    padding-top: 18px;
+}
+
+.project-media-wrapper .project-media {
+    flex: unset !important;
+    max-width: unset !important;
+    width: 100%;
+    height: 500px !important;
+}
+
+.hackathon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, rgba(30, 20, 0, 0.88), rgba(55, 38, 0, 0.85));
+    border: 1px solid rgba(255, 193, 7, 0.6);
+    border-radius: 20px;
+    padding: 0.45rem 1.1rem;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 18px rgba(255, 193, 7, 0.25), 0 0 0 1px rgba(255,193,7,0.1);
+    white-space: nowrap;
+}
+
+.hackathon-badge-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.hackathon-badge-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #f5c842;
+    letter-spacing: 0.04em;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+}
+
+/* Invadr Image Slider */
+.invadr-slider {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+}
+
+.invadr-slides {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
+}
+
+.invadr-slide {
+    min-width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
+    background: #111;
 }
 
 .npx-hint-prompt {
@@ -1515,8 +1588,19 @@ spline-viewer[loaded] {
         margin-bottom: 1.5rem;
         border-radius: 15px;
     }
-    
-    .project-info {
+
+    .project-media-wrapper {
+        flex: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-top: 22px;
+    }
+
+    .project-media-wrapper .project-media {
+        height: 250px !important;
+        margin-bottom: 1.5rem;
+        border-radius: 15px;
+    }
         flex: none !important;
         max-width: 100% !important;
         width: 100% !important;
@@ -1583,10 +1667,13 @@ spline-viewer[loaded] {
         height: 220px !important;
         border-radius: 12px;
     }
-    
-    .project-info {
-        padding: 1.2rem !important;
-        min-height: 250px;
+
+    .project-media-wrapper {
+        padding-top: 20px;
+    }
+
+    .project-media-wrapper .project-media {
+        height: 220px !important;
         border-radius: 12px;
     }
     
@@ -1629,10 +1716,13 @@ spline-viewer[loaded] {
     .project-media {
         height: 200px !important;
     }
-    
-    .project-info {
-        padding: 1rem !important;
-        min-height: 220px;
+
+    .project-media-wrapper {
+        padding-top: 18px;
+    }
+
+    .project-media-wrapper .project-media {
+        height: 200px !important;
     }
     
     .project-name {

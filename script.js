@@ -995,6 +995,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... existing initialization code ...
 });
 
+// Invadr image auto-slider
+(function () {
+    function initInvadrSlider() {
+        const slides = document.querySelector('.invadr-slides');
+        if (!slides) return;
+        const images = slides.querySelectorAll('.invadr-slide');
+        if (images.length < 2) return;
+        let current = 0;
+        setInterval(() => {
+            current = (current + 1) % images.length;
+            slides.style.transform = `translateX(-${current * 100}%)`;
+        }, 2500);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initInvadrSlider);
+    } else {
+        initInvadrSlider();
+    }
+})();
+
 // Add to main initialization
 document.addEventListener('DOMContentLoaded', () => {
     // ... existing initialization code ...
