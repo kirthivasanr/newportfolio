@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // SECTION REVEAL ANIMATIONS
     // ===========================
 
-    // Reusable scrub-based section title reveal
+    // Reusable section title reveal
     document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
         if (el.closest('.hero')) return; // Skip hero elements (handled above)
 
@@ -188,7 +188,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 trigger: el,
                 start: 'top 88%',
                 end: 'top 60%',
-                scrub: 1,
+                scrub: isMobile ? false : 1,
+                toggleActions: isMobile ? 'play none none none' : undefined,
             }
         });
     });
@@ -295,6 +296,8 @@ function initAboutSection() {
 // ===========================
 
 function initSkillsSection() {
+    const isMobile = window.innerWidth <= 768;
+
     gsap.set('.skill-card', { opacity: 0, y: 60, scale: 0.9 });
 
     gsap.to('.skill-card', {
@@ -306,7 +309,8 @@ function initSkillsSection() {
             trigger: '.skills',
             start: 'top 75%',
             end: 'center center',
-            scrub: 1,
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
     });
 }
@@ -451,6 +455,8 @@ function initExperienceSection() {
 // ===========================
 
 function initContactSection() {
+    const isMobile = window.innerWidth <= 768;
+
     gsap.set('.social-icon-link', { opacity: 0, y: 30, scale: 0.8 });
 
     gsap.to('.social-icon-link', {
@@ -460,9 +466,10 @@ function initContactSection() {
         ease: 'back.out(1.7)',
         scrollTrigger: {
             trigger: '.contact',
-            start: 'top 80%',
+            start: 'top 85%',
             end: 'top 50%',
-            scrub: 1,
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
     });
 }
@@ -559,6 +566,8 @@ function initCertificationSlider() {
 // ===========================
 
 function initCertificationAnimations() {
+    const isMobile = window.innerWidth <= 768;
+
     gsap.set('.certifications-slider', { y: 80, opacity: 0, scale: 0.95 });
     gsap.set('.slider-btn', { scale: 0, opacity: 0 });
     gsap.set('.slider-dots', { y: 30, opacity: 0 });
@@ -568,7 +577,8 @@ function initCertificationAnimations() {
             trigger: '.certifications',
             start: 'top 80%',
             end: 'top 30%',
-            scrub: 1,
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
     });
 
