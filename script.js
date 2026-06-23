@@ -1,433 +1,368 @@
-// Wait for DOM to be fully loaded
+// ===========================
+// LENIS SMOOTH SCROLL + GSAP
+// ===========================
+
+let lenis;
+
+function initLenis() {
+    lenis = new Lenis({
+        duration: 1.4,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+    });
+
+    // Connect Lenis to GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+}
+
+// ===========================
+// SCROLL PROGRESS BAR
+// ===========================
+
+function initScrollProgress() {
+    const progressBar = document.getElementById('scroll-progress');
+    if (!progressBar) return;
+
+    gsap.to(progressBar, {
+        scaleX: 1,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: document.documentElement,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3,
+        }
+    });
+}
+
+// ===========================
+// MAIN INITIALIZATION
+// ===========================
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing hero section...');
-    
-    // Check if GSAP is available, if not, show elements without animation
+    console.log('DOM loaded, initializing...');
+
     if (typeof gsap === 'undefined') {
         console.warn('GSAP not loaded, using fallback');
-        // Fallback: Show elements immediately if GSAP is not loaded
         const greeting = document.querySelector('.greeting');
         const name = document.querySelector('.name');
         const tagline = document.querySelector('.tagline');
-        
-        if (greeting) {
-            greeting.style.opacity = '1';
-            greeting.style.transform = 'translateY(0)';
-        }
-        if (name) {
-            name.style.opacity = '1';
-            name.style.transform = 'translateY(0)';
-        }
-        if (tagline) {
-            tagline.style.opacity = '1';
-            tagline.style.transform = 'translateY(0)';
-        }
-        
-        // Start typing animation after a short delay
-        setTimeout(() => {
-            typeTagline();
-        }, 100);
+        if (greeting) { greeting.style.opacity = '1'; greeting.style.transform = 'translateY(0)'; }
+        if (name) { name.style.opacity = '1'; name.style.transform = 'translateY(0)'; }
+        if (tagline) { tagline.style.opacity = '1'; tagline.style.transform = 'translateY(0)'; }
+        setTimeout(() => typeTagline(), 100);
         return;
     }
 
-    console.log('GSAP loaded successfully, starting animations...');
-
-    // Register GSAP ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Define animation durations
-    const animDuration = {
-        fast: 0.5,
-        medium: 0.8,
-        slow: 1.2
-    };
-    
-    // Mobile detection and optimization
     const isMobile = window.innerWidth <= 768;
     const isTouch = 'ontouchstart' in window;
-    
-    // Performance optimization for mobile
+
+    // Init Lenis smooth scroll (desktop only for performance)
+    if (!isMobile && typeof Lenis !== 'undefined') {
+        initLenis();
+    }
+
+    // Init scroll progress bar
+    initScrollProgress();
+
+    // Performance config
     if (isMobile) {
-        // Reduce animation complexity on mobile
-        gsap.config({ force3D: true, trialWarn: false });
+        gsap.config({ force3D: true });
         ScrollTrigger.config({ limitCallbacks: true });
     }
-    
-    // GSAP Timeline for coordinated animations
-    const tl = gsap.timeline();
-    
-    // Hero Section - Set initial states and animate
-    gsap.set('.greeting', { opacity: 0, y: 20 });
-    gsap.set('.name', { opacity: 0, y: 20 });
-    gsap.set('.tagline', { opacity: 0, y: 20 });
 
-    tl.to('.greeting', {
-        opacity: 1, 
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out"
-    })
-    .to('.name', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out"
-    }, "-=0.6")
-    .to('.tagline', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        onComplete: () => typeTagline()
-    }, "-=0.6");
+    // ===========================
+    // HERO SECTION ANIMATIONS
+    // ===========================
 
-    // Typing animation function
-    function typeTagline() {
-        const roles = ["Backend Developer" , "Tech Enthusiast"];
-        let roleIndex = 0;
-        let charIndex = 0;
-        const taglineElement = document.getElementById('tagline-text');
-        
-        if (!taglineElement) {
-            console.warn('Tagline element not found');
-            return;
-        }
+    const heroTl = gsap.timeline();
 
-        // Clear any existing content
-        taglineElement.textContent = '';
-
-        function type() {
-            if (charIndex < roles[roleIndex].length) {
-                taglineElement.textContent += roles[roleIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, 100);
-            } else {
-                setTimeout(erase, 2000);
-            }
-        }
-
-        function erase() {
-            if (charIndex > 0) {
-                taglineElement.textContent = roles[roleIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, 50);
-            } else {
-                roleIndex = (roleIndex + 1) % roles.length;
-                setTimeout(type, 500);
-            }
-        }
-
-        type();
+    // Character-by-character name reveal (professional clip-mask style)
+    const charWraps = document.querySelectorAll('.char-wrap');
+    if (charWraps.length > 0) {
+        gsap.set(charWraps, { yPercent: 110, opacity: 0 });
     }
 
-    // About Section - Responsive animations
-    gsap.set('.about', { y: isMobile ? 50 : 100, opacity: 0 });
-    gsap.set('.about-title', { y: isMobile ? 30 : 50, opacity: 0 });
-    gsap.set('.about-intro', { y: isMobile ? 20 : 30, opacity: 0 });
-    gsap.set('.about-detail', { y: isMobile ? 20 : 30, opacity: 0 });
-    
-    // Animate section into view
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about",
-            start: "top 90%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
-        }
-    })
-    .to('.about', {
-        y: 0,
-        opacity: 1,
-        duration: animDuration.medium,
-        ease: "power3.out"
-    })
-    .to('.about-title', {
-        y: 0,
-        opacity: 1,
-        duration: animDuration.fast,
-        ease: "power2.out"
-    }, "-=0.8")
-    .to('.about-intro', {
-        y: 0,
-        opacity: 1,
-        duration: animDuration.fast * 0.8,
-        ease: "power2.out"
-    }, "-=0.6")
-    .to('.about-detail', {
-        y: 0,
-        opacity: 1,
-        duration: animDuration.fast * 0.6,
-        stagger: 0.2,
-        ease: "power2.out"
-    }, "-=0.4");
-      // Add mouse movement parallax effect for modern touch (disabled on mobile for performance)
+    gsap.set('.greeting', { opacity: 0, y: 20 });
+    gsap.set('.tagline', { opacity: 0, y: 20 });
+    gsap.set('.npx-hint', { opacity: 0, y: 15, scale: 0.97 });
+    gsap.set('.scroll-indicator', { opacity: 0, y: 15 });
+
+    heroTl
+        .to('.greeting', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' })
+        .to(charWraps, {
+            yPercent: 0, opacity: 1,
+            duration: 0.8, stagger: 0.035, ease: 'power4.out'
+        }, '-=0.5')
+        .to('.tagline', {
+            opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+            onComplete: () => typeTagline()
+        }, '-=0.3')
+        .to('.npx-hint', { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+        .to('.scroll-indicator', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2');
+
+    // Hero parallax on scroll — content moves up, bg layer stays
+    if (!isMobile) {
+        gsap.to('.hero-content', {
+            yPercent: -50,
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1,
+            }
+        });
+
+        gsap.to('.hero-bg-layer', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1,
+            }
+        });
+
+        // Hide scroll indicator on scroll
+        gsap.to('.scroll-indicator', {
+            opacity: 0,
+            y: -20,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: '20% top',
+                scrub: 1,
+            }
+        });
+    }
+
+    // Floating hero animation
+    gsap.to('.hero-content', {
+        y: isMobile ? '+=5' : '+=10',
+        duration: isMobile ? 4 : 3,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1
+    });
+
+    // Mouse parallax (desktop only)
     if (!isMobile && !isTouch) {
         document.addEventListener('mousemove', (e) => {
             const mouseX = (e.clientX / window.innerWidth) - 0.5;
             const mouseY = (e.clientY / window.innerHeight) - 0.5;
-              gsap.to('.hero-content', {
-                x: mouseX * 15,
-                y: mouseY * 15,
-                duration: 1.2,
-                ease: "power2.out"
-            });
-            
-            // Subtle parallax for about section too
-            gsap.to('.about-content', {
-                x: mouseX * 10,
-                y: mouseY * 10,
-                duration: 1.5,
-                ease: "power2.out"
-            });
+            gsap.to('.hero-content', { x: mouseX * 15, y: mouseY * 15, duration: 1.2, ease: 'power2.out' });
+            gsap.to('.about-content', { x: mouseX * 10, y: mouseY * 10, duration: 1.5, ease: 'power2.out' });
         });
     }
-    
-    // Add floating animation to the hero content (reduced on mobile)
-    gsap.to('.hero-content', {
-        y: isMobile ? '+=5' : '+=10',
-        duration: isMobile ? 4 : 3,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: -1
-    });
-    
-    // Intersection Observer for performance optimization
-    const observerOptions = {
-        threshold: isMobile ? 0.05 : 0.1,
-        rootMargin: isMobile ? '0px 0px -50px 0px' : '0px 0px -100px 0px'
-    };
-    
-    // Create observer for future animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
+
+    // ===========================
+    // SECTION REVEAL ANIMATIONS
+    // ===========================
+
+    // Reusable section title reveal
+    document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
+        if (el.closest('.hero')) return; // Skip hero elements (handled above)
+
+        gsap.set(el, { opacity: 0, y: 60 });
+        gsap.to(el, {
+            opacity: 1, y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: el,
+                start: 'top 88%',
+                end: 'top 60%',
+                scrub: isMobile ? false : 1,
+                toggleActions: isMobile ? 'play none none none' : undefined,
             }
         });
-    }, observerOptions);
-    
-    // Observe all sections
-    document.querySelectorAll('section').forEach(section => {
-        if (section) {
-            observer.observe(section);
-        }
     });
-    
-    // Initialize Sections
+
+    // Intersection Observer fallback
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('in-view');
+        });
+    }, { threshold: isMobile ? 0.05 : 0.1, rootMargin: isMobile ? '0px 0px -50px 0px' : '0px 0px -100px 0px' });
+    document.querySelectorAll('section').forEach(s => { if (s) observer.observe(s); });
+
+    // Init all sections
     initAboutSection();
     initSkillsSection();
     initProjectsSection();
     initExperienceSection();
     initContactSection();
 
-    // Optimize ScrollTrigger performance for faster animations
     ScrollTrigger.config({
         limitCallbacks: true,
         syncInterval: isMobile ? 150 : 100,
         autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
         ignoreMobileResize: true,
-        anticipatePin: 1
     });
-    
-    // Add orientation change handler for mobile
+
     if (isMobile) {
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 500);
-        });
+        window.addEventListener('orientationchange', () => setTimeout(() => ScrollTrigger.refresh(), 500));
     }
-    
-    // Add window resize handler with debouncing
+
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            ScrollTrigger.refresh();
-        }, isMobile ? 300 : 100);
+        resizeTimeout = setTimeout(() => ScrollTrigger.refresh(), isMobile ? 300 : 100);
     });
-    
-    // Refresh ScrollTrigger after a short delay to ensure proper positioning
-    setTimeout(() => {
-        ScrollTrigger.refresh();
-    }, 100);
-    
-    // Initialize theme toggle
+
+    setTimeout(() => ScrollTrigger.refresh(), 100);
     initThemeToggle();
 });
 
-// About Section Implementation
+// ===========================
+// TYPING ANIMATION
+// ===========================
+
+function typeTagline() {
+    const roles = ["Backend Developer", "Tech Enthusiast"];
+    let roleIndex = 0;
+    let charIndex = 0;
+    const taglineElement = document.getElementById('tagline-text');
+    if (!taglineElement) return;
+    taglineElement.textContent = '';
+
+    function type() {
+        if (charIndex < roles[roleIndex].length) {
+            taglineElement.textContent += roles[roleIndex].charAt(charIndex);
+            charIndex++;
+            setTimeout(type, 100);
+        } else {
+            setTimeout(erase, 2000);
+        }
+    }
+
+    function erase() {
+        if (charIndex > 0) {
+            taglineElement.textContent = roles[roleIndex].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(erase, 50);
+        } else {
+            roleIndex = (roleIndex + 1) % roles.length;
+            setTimeout(type, 500);
+        }
+    }
+
+    type();
+}
+
+// ===========================
+// ABOUT SECTION
+// ===========================
+
 function initAboutSection() {
     const isMobile = window.innerWidth <= 768;
-    gsap.set('.about-title', { opacity: 0, y: 50 });
-    gsap.set('.about-text-content p', { opacity: 0, y: 30 });
 
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about",
-            start: "top 80%",
-            toggleActions: "play none none reverse"
-        }
-    })
-    .to('.about-title', {
-        opacity: 1,
-        y: 0,
+    gsap.set('.about-text-content p', { opacity: 0, y: 40 });
+
+    // Parallax text scrub for about detail
+    gsap.to('.about-text-content p', {
+        opacity: 1, y: 0,
         duration: 1,
-        ease: "power2.out"
-    })
-    .to('.about-text-content p', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out"
-    }, "-=0.7");
-}
-
-// Skills Section Implementation
-function initSkillsSection() {
-    // GSAP animations for skills section
-    gsap.set('.skills-title', { opacity: 0, y: 50 });
-    gsap.set('.skill-card', { opacity: 0, y: 50 });
-    
-    // Animate skills section on scroll
-    gsap.timeline({
+        stagger: 0.3,
+        ease: 'power2.out',
         scrollTrigger: {
-            trigger: ".skills",
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
+            trigger: '.about',
+            start: 'top 75%',
+            end: 'center center',
+            scrub: isMobile ? false : 1.5,
+            toggleActions: isMobile ? 'play none none reverse' : undefined,
         }
-    })
-    .to('.skills-title', {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out"
-    })
-    .to('.skill-card', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out"
-    }, "-=0.5");
-}
-
-// Initialize Projects Section
-function initProjectsSection() {
-    // Mobile detection for optimized performance
-    const isMobile = window.innerWidth <= 768;
-    
-    // GSAP animations for projects section - reduced initial transform for smoother animation
-    gsap.set('.projects-title', { opacity: 0, y: 30 });
-    gsap.set('.project-item', { opacity: 0, y: 30 });
-    
-    // Ensure project content is always visible (fallback)
-    gsap.set('.project-info, .project-name, .project-desc, .project-tech, .tech-tag, .view-code-btn', { 
-        opacity: 1, 
-        visibility: 'visible' 
     });
-      // Animate projects title - faster animation
-    gsap.timeline({
+}
+
+// ===========================
+// SKILLS SECTION
+// ===========================
+
+function initSkillsSection() {
+    const isMobile = window.innerWidth <= 768;
+
+    gsap.set('.skill-card', { opacity: 0, y: 60, scale: 0.9 });
+
+    gsap.to('.skill-card', {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'back.out(1.4)',
         scrollTrigger: {
-            trigger: ".projects",
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
+            trigger: '.skills',
+            start: 'top 75%',
+            end: 'center center',
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
-    })
-    .to('.projects-title', {
-        opacity: 1,
-        y: 0,
-        duration: isMobile ? 0.3 : 0.4,
-        ease: "power2.out"
-    });// Animate each project item individually as they come into view
+    });
+}
+
+// ===========================
+// PROJECTS SECTION
+// ===========================
+
+function initProjectsSection() {
+    const isMobile = window.innerWidth <= 768;
+
+    gsap.set('.project-item', { opacity: 0, y: 80 });
+    gsap.set('.project-info, .project-name, .project-desc, .project-tech, .tech-tag, .view-code-btn', {
+        opacity: 1, visibility: 'visible'
+    });
+
+    // Each project item scrubs in on scroll
     document.querySelectorAll('.project-item').forEach((item, index) => {
-        // Configuration: Set to true if you want items to fade when out of view, false to keep them visible once shown
-        const fadeWhenOutOfView = false;
-        
-        // Create a fast, reliable trigger that doesn't cause disappearing
-        gsap.timeline({
-            scrollTrigger: {
-                trigger: item,
-                start: "top 90%",
-                end: "bottom 10%",
-                toggleActions: "play none none none", // Don't reverse - keep items visible once shown
-                scrub: false,
-                once: false,
-                refreshPriority: 1,
-                fastScrollEnd: true,
-                invalidateOnRefresh: true,
-                onEnter: () => {
-                    // Fast appearance animation
-                    gsap.to(item, {
-                        opacity: 1,
-                        y: 0,
-                        duration: isMobile ? 0.2 : 0.25,
-                        ease: "power2.out",
-                        force3D: true,
-                        overwrite: true
-                    });
-                },
-                onLeave: () => {
-                    // Only fade if configured to do so
-                    if (fadeWhenOutOfView) {
-                        gsap.to(item, {
-                            opacity: 0.2,
-                            duration: isMobile ? 0.1 : 0.15,
-                            ease: "power2.out",
-                            overwrite: true
-                        });
-                    }
-                },
-                onEnterBack: () => {
-                    // Quick reappearance when scrolling back up
-                    gsap.to(item, {
-                        opacity: 1,
-                        y: 0,
-                        duration: isMobile ? 0.1 : 0.15,
-                        ease: "power2.out",
-                        force3D: true,
-                        overwrite: true
-                    });
-                },
-                onLeaveBack: () => {
-                    // Only fade if configured to do so
-                    if (fadeWhenOutOfView) {
-                        gsap.to(item, {
-                            opacity: 0.2,
-                            duration: isMobile ? 0.1 : 0.15,
-                            ease: "power2.out",
-                            overwrite: true
-                        });
-                    }
+        const direction = index % 2 === 0 ? -1 : 1;
+
+        gsap.fromTo(item,
+            { opacity: 0, y: 80, x: isMobile ? 0 : direction * 60 },
+            {
+                opacity: 1, y: 0, x: 0,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 90%',
+                    end: 'top 50%',
+                    scrub: isMobile ? false : 1.2,
+                    toggleActions: isMobile ? 'play none none none' : undefined,
                 }
             }
-        });
+        );
     });
-    
-    // Backup mechanism: Ensure all project items become visible after a delay if ScrollTrigger fails
+
+    // Fallback visibility
     setTimeout(() => {
         document.querySelectorAll('.project-item').forEach((item, index) => {
             if (getComputedStyle(item).opacity === '0') {
-                gsap.to(item, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.3,
-                    ease: "power2.out",
-                    delay: index * 0.1
-                });
+                gsap.to(item, { opacity: 1, y: 0, x: 0, duration: 0.3, ease: 'power2.out', delay: index * 0.1 });
             }
         });
-    }, 2000); // 2 second fallback delay
-      // Lazy load project videos on scroll to improve performance
-    const videos = document.querySelectorAll(".project-video");
+    }, 2000);
+
+    // Video lazy play/pause
+    const videos = document.querySelectorAll('.project-video');
     videos.forEach(video => {
         ScrollTrigger.create({
             trigger: video,
-            start: "top center",
-            end: "bottom center",
+            start: 'top center',
+            end: 'bottom center',
             onEnter: () => video.play(),
             onEnterBack: () => video.play(),
             onLeave: () => video.pause(),
@@ -435,239 +370,107 @@ function initProjectsSection() {
         });
     });
 
-    // Add hover effects for project items
+    // Hover effects
     document.querySelectorAll('.project-item').forEach(item => {
         const media = item.querySelector('.project-media');
         const info = item.querySelector('.project-info');
-        
         item.addEventListener('mouseenter', () => {
-            gsap.to(media, {
-                y: -5,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-            gsap.to(info, {
-                y: -5,
-                duration: 0.3,
-                ease: "power2.out"
-            });
+            gsap.to(media, { y: -5, duration: 0.3, ease: 'power2.out' });
+            gsap.to(info, { y: -5, duration: 0.3, ease: 'power2.out' });
         });
-        
         item.addEventListener('mouseleave', () => {
-            gsap.to(media, {
-                y: 0,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-            gsap.to(info, {
-                y: 0,
-                duration: 0.3,
-                ease: "power2.out"
-            });
+            gsap.to(media, { y: 0, duration: 0.3, ease: 'power2.out' });
+            gsap.to(info, { y: 0, duration: 0.3, ease: 'power2.out' });
         });
     });
 }
 
-// Initialize Experience Section
+// ===========================
+// EXPERIENCE SECTION
+// ===========================
+
 function initExperienceSection() {
-    // GSAP animations for experience section
-    gsap.set('.experience-title', { opacity: 0, y: 50 });
-    gsap.set('.timeline-line', { scaleY: 0, transformOrigin: "top center" });
-    gsap.set('.timeline-item', { opacity: 0, y: 50 });
-    
-    // Animate experience title and timeline
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: ".experience",
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
-        }
-    })
-    .to('.experience-title', {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out"
-    })
-    .to('.timeline-line', {
+    const isMobile = window.innerWidth <= 768;
+
+    gsap.set('.timeline-line', { scaleY: 0, transformOrigin: 'top center' });
+    gsap.set('.timeline-item', { opacity: 0, y: 60 });
+
+    // Timeline line grows with scroll
+    gsap.to('.timeline-line', {
         scaleY: 1,
-        duration: 1.5,
-        ease: "power2.out"
-    }, "-=0.5");
-    
-    // Animate timeline items individually
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.timeline',
+            start: 'top 80%',
+            end: 'bottom 60%',
+            scrub: 1,
+        }
+    });
+
+    // Timeline items scrub in
     document.querySelectorAll('.timeline-item').forEach((item, index) => {
-        gsap.timeline({
+        gsap.to(item, {
+            opacity: 1, y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
             scrollTrigger: {
                 trigger: item,
-                start: "top 85%",
-                end: "top 15%",
-                toggleActions: "play none none reverse"
+                start: 'top 85%',
+                end: 'top 55%',
+                scrub: isMobile ? false : 1,
+                toggleActions: isMobile ? 'play none none reverse' : undefined,
             }
-        })
-        .to(item, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: index * 0.1
         });
     });
-    
-    // Add hover effects for experience cards
+
+    // Experience card hover
     document.querySelectorAll('.experience-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-                scale: 1.02,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-                scale: 1,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
+        card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.02, duration: 0.3, ease: 'power2.out' }));
+        card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' }));
     });
-    
-    // Add number counting animation for stats
+
+    // Stat counter animation
     document.querySelectorAll('.stat-number').forEach(stat => {
         const finalValue = stat.textContent;
         const numericValue = parseInt(finalValue.replace(/\D/g, ''));
-        
         if (numericValue) {
             gsap.set(stat, { textContent: '0' });
-            
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: stat,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            })
-            .to(stat, {
+            gsap.to(stat, {
                 textContent: numericValue,
                 duration: 2,
-                ease: "power2.out",
+                ease: 'power2.out',
                 snap: { textContent: 1 },
+                scrollTrigger: { trigger: stat, start: 'top 80%', toggleActions: 'play none none reverse' },
                 onUpdate: function() {
-                    const currentValue = Math.round(this.targets()[0].textContent);
-                    if (finalValue.includes('+')) {
-                        stat.textContent = currentValue + '+';
-                    } else if (finalValue.includes('%')) {
-                        stat.textContent = currentValue + '%';
-                    } else {
-                        stat.textContent = currentValue;
-                    }
+                    const v = Math.round(this.targets()[0].textContent);
+                    stat.textContent = finalValue.includes('+') ? v + '+' : finalValue.includes('%') ? v + '%' : v;
                 }
             });
         }
     });
 }
 
-// Initialize Contact Section
+// ===========================
+// CONTACT SECTION
+// ===========================
+
 function initContactSection() {
-    // GSAP animations for contact section
-    gsap.set('.contact-title', { opacity: 0, y: 50 });
-    gsap.set('.social-card', { opacity: 0, y: 50 });
-    
-    // Animate contact title
-    gsap.timeline({
+    const isMobile = window.innerWidth <= 768;
+
+    gsap.set('.social-icon-link', { opacity: 0, y: 30, scale: 0.8 });
+
+    gsap.to('.social-icon-link', {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'back.out(1.7)',
         scrollTrigger: {
-            trigger: ".contact",
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
+            trigger: '.contact',
+            start: 'top 85%',
+            end: 'top 50%',
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
-    })
-    .to('.contact-title', {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out"
-    });
-    
-    // Animate social cards with stagger effect
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: ".social-grid",
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse"
-        }
-    })
-    .to('.social-card', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out"
-    });
-    
-    // Add enhanced hover effects for social cards
-    document.querySelectorAll('.social-card').forEach(card => {
-        const icon = card.querySelector('.social-icon');
-        const btn = card.querySelector('.social-btn');
-        
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-                scale: 1.02,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-            
-            gsap.to(icon, {
-                rotationY: 15,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-                scale: 1,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-            
-            gsap.to(icon, {
-                rotationY: 0,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-        
-        // Button click animation
-        btn.addEventListener('click', function(e) {
-            gsap.to(this, {
-                scale: 0.95,
-                duration: 0.1,
-                ease: "power2.out",
-                onComplete: () => {
-                    gsap.to(this, {
-                        scale: 1,
-                        duration: 0.1,
-                        ease: "power2.out"
-                    });
-                }
-            });
-        });
-    });
-    
-    // Add floating animation to social icons
-    document.querySelectorAll('.social-icon').forEach((icon, index) => {
-        gsap.to(icon, {
-            y: '+=5',
-            duration: 2 + (index * 0.5),
-            ease: "power1.inOut",
-            yoyo: true,
-            repeat: -1,
-            delay: index * 0.2
-        });
     });
 }
 
@@ -682,174 +485,75 @@ function initCertificationSlider() {
     const dots = document.querySelectorAll('.slider-dot');
     const slides = document.querySelectorAll('.certification-slide');
     const sliderContainer = document.querySelector('.certifications-slider');
-    
+
     if (!track || !prevBtn || !nextBtn || !sliderContainer || dots.length === 0 || slides.length === 0) return;
-    
+
     let currentSlide = 0;
     const totalSlides = slides.length;
 
-    // Dynamically set track and slide widths for robustness
     track.style.width = `${totalSlides * 100}%`;
-    slides.forEach(slide => {
-        slide.style.width = `${100 / totalSlides}%`;
-    });
-    
-    // Auto-play settings
+    slides.forEach(slide => { slide.style.width = `${100 / totalSlides}%`; });
+
     let autoPlayInterval;
-    const autoPlayDelay = 3000; // 3 seconds
-    
+    const autoPlayDelay = 3000;
+
     function updateSlider() {
-        // Calculate offset dynamically based on number of slides
         const offset = -currentSlide * (100 / totalSlides);
-        
-        gsap.to(track, {
-            x: `${offset}%`,
-            duration: 1.5, // Slower, smoother slide duration
-            ease: "power3.inOut", // Smoother easing for a more fluid motion
-            force3D: true
-        });
-        
-        // Update dots
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
-        });
-        
-        // Update active slide for overlay effects
-        slides.forEach((slide, index) => {
-            slide.classList.toggle('active', index === currentSlide);
-        });
-        
-        // Animate current slide overlay
-        const currentSlideElement = slides[currentSlide];
-        const overlay = currentSlideElement.querySelector('.certification-overlay');
-        
+        gsap.to(track, { x: `${offset}%`, duration: 1.5, ease: 'power3.inOut', force3D: true });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+
+        const overlay = slides[currentSlide].querySelector('.certification-overlay');
         if (overlay) {
-            gsap.fromTo(overlay, 
-                { 
-                    opacity: 0,
-                    y: 30
-                },
-                { 
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    delay: 0.5 // Delay to start after slide transition
-                }
-            );
+            gsap.fromTo(overlay, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 0.5 });
         }
     }
-    
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateSlider();
-    }
-    
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateSlider();
-    }
-    
-    function goToSlide(slideIndex) {
-        currentSlide = slideIndex;
-        updateSlider();
-    }
-    
-    function startAutoPlay() {
-        stopAutoPlay(); // Prevent multiple intervals
-        autoPlayInterval = setInterval(nextSlide, autoPlayDelay);
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    // Event listeners
-    prevBtn.addEventListener('click', () => {
-        prevSlide();
-        startAutoPlay(); // Restart autoplay
-    });
-    
-    nextBtn.addEventListener('click', () => {
-        nextSlide();
-        startAutoPlay();
-    });
-    
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index);
-            startAutoPlay();
-        });
-    });
-    
-    // Pause auto-play on hover
+
+    function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
+    function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); }
+    function goToSlide(i) { currentSlide = i; updateSlider(); }
+    function startAutoPlay() { stopAutoPlay(); autoPlayInterval = setInterval(nextSlide, autoPlayDelay); }
+    function stopAutoPlay() { clearInterval(autoPlayInterval); }
+
+    prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
+    nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { goToSlide(i); startAutoPlay(); }));
+
     if (sliderContainer) {
         sliderContainer.addEventListener('mouseenter', stopAutoPlay);
         sliderContainer.addEventListener('mouseleave', startAutoPlay);
     }
-    
-    // Touch/swipe support for mobile
-    let startX = 0;
-    let startY = 0;
-    let isDragging = false;
-    
-    track.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        isDragging = true;
-        stopAutoPlay();
-    }, { passive: true });
-    
-    track.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        // This is intentionally left empty to allow default scroll behavior
-    }, { passive: false });
-    
+
+    // Touch/swipe
+    let startX = 0, startY = 0, isDragging = false;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; isDragging = true; stopAutoPlay(); }, { passive: true });
+    track.addEventListener('touchmove', () => {}, { passive: false });
     track.addEventListener('touchend', (e) => {
         if (!isDragging) return;
-        
-        const endX = e.changedTouches[0].clientX;
-        const endY = e.changedTouches[0].clientY;
-        const diffX = startX - endX;
-        const diffY = startY - endY;
-        
-        // Only trigger if horizontal swipe is greater than vertical
+        const diffX = startX - e.changedTouches[0].clientX;
+        const diffY = startY - e.changedTouches[0].clientY;
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-            if (diffX > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
+            diffX > 0 ? nextSlide() : prevSlide();
         }
-        
         isDragging = false;
         startAutoPlay();
     });
-    
-    // Keyboard navigation
+
+    // Keyboard nav
     document.addEventListener('keydown', (e) => {
-        const sliderInView = document.querySelector('.certifications').getBoundingClientRect();
-        const isInView = sliderInView.top < window.innerHeight && sliderInView.bottom > 0;
-        
-        if (isInView) {
-            if (e.key === 'ArrowLeft') {
-                prevSlide();
-                startAutoPlay();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-                startAutoPlay();
-            }
+        const rect = document.querySelector('.certifications').getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            if (e.key === 'ArrowLeft') { prevSlide(); startAutoPlay(); }
+            else if (e.key === 'ArrowRight') { nextSlide(); startAutoPlay(); }
         }
     });
-    
-    // Initialize
+
     updateSlider();
 
-    // Start/Stop autoplay based on visibility
     ScrollTrigger.create({
-        trigger: ".certifications",
-        start: "top 80%",
-        end: "bottom 20%",
+        trigger: '.certifications',
+        start: 'top 80%',
+        end: 'bottom 20%',
         onEnter: startAutoPlay,
         onLeave: stopAutoPlay,
         onEnterBack: startAutoPlay,
@@ -862,124 +566,49 @@ function initCertificationSlider() {
 // ===========================
 
 function initCertificationAnimations() {
-    // Set initial states
-    gsap.set('.certifications-title', { y: 50, opacity: 0 });
+    const isMobile = window.innerWidth <= 768;
+
     gsap.set('.certifications-slider', { y: 80, opacity: 0, scale: 0.95 });
     gsap.set('.slider-btn', { scale: 0, opacity: 0 });
     gsap.set('.slider-dots', { y: 30, opacity: 0 });
-    
-    // Main timeline
+
     const tl = gsap.timeline({
         scrollTrigger: {
-            trigger: ".certifications",
-            start: "top 80%",
-            end: "top 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.certifications',
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: isMobile ? false : 1,
+            toggleActions: isMobile ? 'play none none none' : undefined,
         }
     });
-    
-    tl.to('.certifications-title', {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out"
-    })
-    .to('.certifications-slider', {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out"
-    }, "-=0.4")
-    .to('.slider-btn', {
-        scale: 1,
-        opacity: 1,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-        stagger: 0.1
-    }, "-=0.3")
-    .to('.slider-dots', {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "power2.out"
-    }, "-=0.2");
-    
-    // Individual slide animations when they come into view
-    gsap.utils.toArray('.certification-slide').forEach((slide, index) => {
-        const image = slide.querySelector('.certification-image img');
-        const overlay = slide.querySelector('.certification-overlay');
-        const title = overlay.querySelector('h3');
-        const issuer = overlay.querySelector('.issuer');
-        const date = overlay.querySelector('.date');
-        const skills = overlay.querySelectorAll('.cert-skill');
-        
-        gsap.set([image, title, issuer, date, skills], { opacity: 0, y: 30 });
-        
-        const slideTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: slide,
-                start: "top 90%",
-                end: "top 30%",
-                toggleActions: "play none none reverse"
-            }
-        });
-        
-        slideTl.to(image, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out"
-        })
-        .to(title, {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power2.out"
-        }, "-=0.4")
-        .to([issuer, date], {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: "power2.out",
-            stagger: 0.1
-        }, "-=0.3")
-        .to(skills, {
-            opacity: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power2.out",
-            stagger: 0.05
-        }, "-=0.2");
-    });
+
+    tl.to('.certifications-slider', { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out' })
+      .to('.slider-btn', { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)', stagger: 0.1 }, '-=0.3')
+      .to('.slider-dots', { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.2');
 }
 
 // ===========================
-// THEME TOGGLE FUNCTIONALITY
+// THEME TOGGLE
 // ===========================
 
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const html = document.documentElement;
-    
-    // Check for saved theme preference or default to dark mode
+
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         body.classList.add('light-theme');
         html.classList.add('light-theme');
         themeToggle.checked = true;
     }
-    
-    // Theme toggle event listener
+
     themeToggle.addEventListener('change', function() {
         if (this.checked) {
-            // Switch to light mode
             body.classList.add('light-theme');
             html.classList.add('light-theme');
             localStorage.setItem('theme', 'light');
         } else {
-            // Switch to dark mode
             body.classList.remove('light-theme');
             html.classList.remove('light-theme');
             localStorage.setItem('theme', 'dark');
@@ -987,15 +616,10 @@ function initThemeToggle() {
     });
 }
 
-// Add to main initialization
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize theme toggle first
-    initThemeToggle();
-    
-    // ... existing initialization code ...
-});
+// ===========================
+// INVADR SLIDER
+// ===========================
 
-// Invadr image auto-slider
 (function () {
     function initInvadrSlider() {
         const slides = document.querySelector('.invadr-slides');
@@ -1015,11 +639,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })();
 
-// Add to main initialization
+// ===========================
+// GLOWING BALL CURSOR
+// ===========================
+
+document.addEventListener('mousemove', (e) => {
+    const ball = document.querySelector('.glowing-ball');
+    if (ball) {
+        ball.style.left = e.clientX + 'px';
+        ball.style.top = e.clientY + 'px';
+    }
+});
+
+// ===========================
+// DEFERRED INIT
+// ===========================
+
 document.addEventListener('DOMContentLoaded', () => {
-    // ... existing initialization code ...
-    
-    // Initialize certification features
     setTimeout(() => {
         initCertificationSlider();
         initCertificationAnimations();

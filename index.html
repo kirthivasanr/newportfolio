@@ -23,11 +23,17 @@
     <link rel="manifest" href="assets/favicon/manifest.json">
     <meta name="theme-color" content="#0a0a0a">
     
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    
+    <!-- GSAP Animation Library (Latest) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
     <div class="glowing-ball"></div>
     <div class="top-right-controls">
         <div class="controls-container">
@@ -54,23 +60,32 @@
     </div>
     <div class="container">
         <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <p class="greeting">Hi there, I am</p>              
-                <h1 class="name">KIRTHIVASAN M R</h1>
-                <p class="tagline"><span id="tagline-text"></span></p>
-                <div class="npx-hint">
+        <section class="hero" data-scroll-section>
+            <div class="hero-bg-layer"></div>
+            <div class="hero-content" data-scroll data-scroll-speed="-2">
+                <p class="greeting" data-scroll-reveal>Hi there, I am</p>              
+                <h1 class="name" data-scroll-reveal>
+                    <span class="char-wrap">K</span><span class="char-wrap">I</span><span class="char-wrap">R</span><span class="char-wrap">T</span><span class="char-wrap">H</span><span class="char-wrap">I</span><span class="char-wrap">V</span><span class="char-wrap">A</span><span class="char-wrap">S</span><span class="char-wrap">A</span><span class="char-wrap">N</span> <span class="char-wrap">M</span> <span class="char-wrap">R</span>
+                </h1>
+                <p class="tagline" data-scroll-reveal><span id="tagline-text"></span></p>
+                <div class="npx-hint" data-scroll-reveal>
                     <span class="npx-hint-prompt">$</span>
                     <span class="npx-hint-cmd">npx kirthivasan</span>
                     <span class="npx-hint-label">— try it in your terminal</span>
                 </div>
             </div>
+            <div class="scroll-indicator">
+                <div class="scroll-indicator-mouse">
+                    <div class="scroll-indicator-wheel"></div>
+                </div>
+                <span class="scroll-indicator-text">Scroll Down</span>
+            </div>
         </section>        
 
     <!-- About Section -->
-    <section class="about" id="about">
+    <section class="about" id="about" data-scroll-section>
         <div class="about-content">
-            <h2 class="about-title">Who Am I?</h2>
+            <h2 class="about-title" data-scroll-reveal data-scroll-word-reveal>Who Am I?</h2>
             <div class="about-text">
                 <div class="about-text-content">
                     <p class="about-detail">I’m a pre-final year Electronics and Communication Engineering student at SRM Institute of Science and Technology, Ramapuram, focused on backend engineering and system-level problem solving. <br> <br>
@@ -85,9 +100,9 @@
     </section>
 
         <!-- Skills Section -->
-        <section class="skills" id="skills">
+        <section class="skills" id="skills" data-scroll-section>
             <div class="skills-content">
-                <h2 class="skills-title">My Skills</h2>
+                <h2 class="skills-title" data-scroll-reveal>My Skills</h2>
                 <div class="skills-grid">
                     <div class="skill-card">
                         <div class="skill-icon">
@@ -175,9 +190,9 @@
         </section>
       
           <!-- Projects Section -->
-        <section class="projects">
+        <section class="projects" data-scroll-section>
             <div class="projects-content">
-                <h2 class="projects-title">My Projects</h2>
+                <h2 class="projects-title" data-scroll-reveal>My Projects</h2>
                 <div class="projects-container">
                      <div class="project-item">
                         <div class="project-media-wrapper">
@@ -375,9 +390,9 @@
         </section>
         
         <!-- Experience Section -->
-        <section class="experience">
+        <section class="experience" data-scroll-section>
             <div class="experience-content">
-                <h2 class="experience-title">My Experience</h2>                
+                <h2 class="experience-title" data-scroll-reveal>My Experience</h2>                
                 <div class="timeline">
                     <!-- Timeline Line -->
                     <div class="timeline-line"></div>
@@ -428,9 +443,9 @@
         </section>
         
         <!-- Certifications Section -->
-        <section class="certifications">
+        <section class="certifications" data-scroll-section>
             <div class="certifications-content">
-                <h2 class="certifications-title">My Certifications</h2>
+                <h2 class="certifications-title" data-scroll-reveal>My Certifications</h2>
                 <div class="certifications-slider">
                     <div class="slider-container">
                         <div class="slider-track">
@@ -575,9 +590,9 @@
         </section>
         
         <!-- Contact Section -->
-        <section class="contact">
+        <section class="contact" data-scroll-section>
             <div class="contact-content">
-                <h2 class="contact-title">Let's Connect</h2>
+                <h2 class="contact-title" data-scroll-reveal>Let's Connect</h2>
                 <div class="social-icons-row">
                     <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/kirthivasan-m-r-2b7a6932a/" target="_blank" rel="noopener noreferrer" class="social-icon-link linkedin" aria-label="LinkedIn">
